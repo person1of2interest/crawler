@@ -9,7 +9,7 @@ if __name__ == '__main__':
     # batch_size можно настраивать
     crawler = Crawler(home_domain='spbu.ru', batch_size=8)
     asyncio.run(crawler.run(max_hops=max_hops))
-    with open('stats.csv', 'w') as stats_file:
+    with open('logs/stats.csv', 'w') as stats_file:
         writer = csv.writer(stats_file, delimiter=',')
         writer.writerow([
             'Links',
@@ -27,12 +27,4 @@ if __name__ == '__main__':
             len(crawler.links_to_docs),
             len(crawler.visited_urls)
         ])
-    print(
-        f'Links: {crawler.links_count} | '
-        f'External links: {crawler.ext_links_count} | '
-        f'Unique external links: {len(crawler.unique_ext_links)} | '
-        f'Dead links: {crawler.dead_links_count}'
-    )
-    print(f'Visited {len(crawler.visited_urls)} urls')
-
 

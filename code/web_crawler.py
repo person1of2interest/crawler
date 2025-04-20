@@ -22,7 +22,7 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s:%(message)s',
     level=logging.INFO,
     handlers=[
-        logging.FileHandler("crawler.log"),  # сохраняем логи в файл
+        logging.FileHandler("logs/crawler.log"),  # сохраняем логи в файл
         logging.StreamHandler()  # также выводим в консоль
     ]
 )
@@ -149,7 +149,7 @@ class Crawler:
         Запускаем crawler
         """
         async with aiohttp.ClientSession() as session:
-            with open('links.txt', 'w') as outfile:
+            with open('logs/links.txt', 'w') as outfile:
                 self.links_count = 1
                 while self.urls_to_visit and len(self.visited_urls) < max_hops:
                     # собираем батч из адресов
