@@ -49,7 +49,7 @@ def is_document(path: str) -> bool:
 
 class Crawler:
 
-    def __init__(self, home_domain='spbu.ru', batch_size=5):
+    def __init__(self, home_domain='spbu.ru', batch_size=8):
         self.home_domain = home_domain # страница, с которой стартуем
         self.visited_urls = set(['https://' + home_domain])
         self.urls_to_visit = deque(['https://' + home_domain])

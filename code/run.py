@@ -5,9 +5,10 @@ import sys
 
 
 if __name__ == '__main__':
-    max_hops = int(sys.argv[1])
+    home_domain = sys.argv[1]
+    max_hops = int(sys.argv[2])
     # batch_size можно настраивать
-    crawler = Crawler(home_domain='spbu.ru', batch_size=8)
+    crawler = Crawler(home_domain=home_domain, batch_size=8)
     asyncio.run(crawler.run(max_hops=max_hops))
     with open('logs/stats.csv', 'w') as stats_file:
         writer = csv.writer(stats_file, delimiter=',')

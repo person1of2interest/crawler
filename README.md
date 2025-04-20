@@ -5,13 +5,13 @@
   ```
   pip install -r requirements.txt
   ```
-* Для запуска поискового робота используйте команду (max_hops – число веб-страниц для посещения)
+* Для запуска поискового робота используйте команду (domain_name – страница для старта, max_hops – число веб-страниц для посещения)
   ```
-  python3 code/run.py [max_hops]
+  python3 code/run.py [domain_name] [max_hops]
   ```
 * Для сбора и вывода статистики
   ```
-  python3 code/collect.py
+  python3 code/collect.py [domain_name]
   ```  
 * Для запуска тестов
   ```
@@ -61,6 +61,10 @@ crawler/
 
 ## Пример
 ![example](img/example.png)
+
+## Тесты
+
+Код тестировался с помощью библиотеки unittest (отдельные компоненты и интеграция), все тесты прошли
 
 ## Примечание
 Код совместим с Python 3.10.12

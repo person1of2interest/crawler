@@ -1,6 +1,10 @@
+import os
+import sqlite3
 import unittest
 from unittest.mock import AsyncMock, patch, MagicMock
 from code.web_crawler import Crawler
+from code.collect import create_links_db, get_stats_from_db
+
 
 class TestCrawler(unittest.TestCase):
 
@@ -9,7 +13,7 @@ class TestCrawler(unittest.TestCase):
 
     def test_initialization(self):
         self.assertEqual(self.crawler.home_domain, 'spbu.ru')
-        self.assertEqual(self.crawler.batch_size, 5)
+        self.assertEqual(self.crawler.batch_size, 8)
         self.assertEqual(len(self.crawler.visited_urls), 1)
         self.assertEqual(self.crawler.ext_links_count, 0)
         self.assertEqual(self.crawler.dead_links_count, 0)
@@ -85,6 +89,31 @@ class TestCrawler(unittest.TestCase):
         mock_session.return_value.__aenter__.return_value = MagicMock()
         await self.crawler.run(max_hops=10)
         self.assertTrue(len(self.crawler.visited_urls) >= 10)
+      
+        
+class TestIntegration(unittest.TestCase):
+    def setUp(self):
+    	self.db_name = 'test_db.sqlite'
+    	self.file_name = 'test_links.txt'
+    	self.path_to_folder = 'tests'
+    	create_links_db(
+            db_name=self.db_name,
+            file_name=self.file_name,
+            path_to_folder=self.path_to_folder 
+        )
+        
+    def test_get_stats_from_db(self):
+        conn = sqlite3.connect(self.path_to_folder + '/' + self.db_name)
+        cursor = conn.cursor()
+        subdomains_count, internal_pages_count = get_stats_from_db(
+            cursor,
+            home_domain='spbu.ru'
+        )
+        self.assertEqual((subdomains_count, internal_pages_count), (5, 3))
+    
+    def tearDown(self):
+        os.remove(self.path_to_folder + '/' + self.db_name)
+
 
 if __name__ == '__main__':
     unittest.main()

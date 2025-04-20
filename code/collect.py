@@ -1,3 +1,4 @@
+import sys
 import sqlite3
 import csv
 
@@ -88,6 +89,7 @@ def get_stats_from_db(cursor: sqlite3.Cursor,
 
 
 if __name__ == "__main__":
+    home_domain = sys.argv[1]
     path_to_folder = 'logs'
     db_name = 'crawler.sqlite'
     create_links_db(
@@ -101,7 +103,7 @@ if __name__ == "__main__":
 
     subdomains_count, internal_pages_count = get_stats_from_db(
         cursor,
-        home_domain='spbu.ru'
+        home_domain=home_domain
     )
     conn.close()
 
